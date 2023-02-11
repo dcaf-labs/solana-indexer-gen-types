@@ -10,7 +10,7 @@ import (
 
 type Table struct {
 	gorm.Model
-	GormPublicKey
+	PublicKey
 }
 
 func TestPublicKey(t *testing.T) {
@@ -20,12 +20,12 @@ func TestPublicKey(t *testing.T) {
 	err := db.AutoMigrate(&Table{})
 	assert.NoError(t, err)
 	// Insert
-	pubInsert := Table{GormPublicKey: GormPublicKey{solana.MustPublicKeyFromBase58("HPbhpFTrR2qgwrWM2brB6WcwDnn7FJ83fPsVe3Deo1EJ")}}
-	assert.Equal(t, "HPbhpFTrR2qgwrWM2brB6WcwDnn7FJ83fPsVe3Deo1EJ", pubInsert.GormPublicKey.String())
+	pubInsert := Table{PublicKey: PublicKey{solana.MustPublicKeyFromBase58("HPbhpFTrR2qgwrWM2brB6WcwDnn7FJ83fPsVe3Deo1EJ")}}
+	assert.Equal(t, "HPbhpFTrR2qgwrWM2brB6WcwDnn7FJ83fPsVe3Deo1EJ", pubInsert.PublicKey.String())
 	assert.NoError(t, db.Create(&pubInsert).Error)
 	// Read
 	var pubFind Table
 	assert.NoError(t, db.First(&pubFind, 1).Error) // find by gorm ID
-	assert.Equal(t, pubInsert.GormPublicKey.String(), pubFind.GormPublicKey.String())
-	assert.Equal(t, "HPbhpFTrR2qgwrWM2brB6WcwDnn7FJ83fPsVe3Deo1EJ", pubFind.GormPublicKey.String())
+	assert.Equal(t, pubInsert.PublicKey.String(), pubFind.PublicKey.String())
+	assert.Equal(t, "HPbhpFTrR2qgwrWM2brB6WcwDnn7FJ83fPsVe3Deo1EJ", pubFind.PublicKey.String())
 }

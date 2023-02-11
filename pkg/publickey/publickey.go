@@ -8,7 +8,7 @@ import (
 
 // TODO: Add this to the official https://github.com/gagliardetto/solana-go
 
-type GormPublicKey struct {
+type PublicKey struct {
 	solana.PublicKey `gorm:"-:all"`
 }
 
@@ -30,7 +30,7 @@ type GormPublicKey struct {
 // Reference types such as []byte are only valid until the next call to Scan
 // and should not be retained. Their underlying memory is owned by the driver.
 // If retention is necessary, copy their values before the next call to Scan.
-func (p *GormPublicKey) Scan(value any) error {
+func (p *PublicKey) Scan(value any) error {
 	if value == nil {
 		return p.PublicKey.Set("")
 	}
@@ -51,7 +51,7 @@ func (p *GormPublicKey) Scan(value any) error {
 
 // Value returns a driver Value.
 // Value must not panic.
-func (p *GormPublicKey) Value() (driver.Value, error) {
+func (p *PublicKey) Value() (driver.Value, error) {
 	if p == nil {
 		return nil, nil
 	}
