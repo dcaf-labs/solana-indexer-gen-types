@@ -6,6 +6,8 @@ import (
 	"github.com/gagliardetto/solana-go"
 )
 
+// TODO: Add this to the official https://github.com/gagliardetto/solana-go
+
 type GormPublicKey struct {
 	solana.PublicKey `gorm:"-:all"`
 }
