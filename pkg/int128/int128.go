@@ -8,7 +8,7 @@ import (
 	"math/big"
 )
 
-// TODO: Add this to the official https://github.com/gagliardetto/solana-go
+// TODO: Add this to the official https://github.com/gagliardetto/binary
 
 type Int128 struct {
 	bin.Int128 `gorm:"-:all"`
