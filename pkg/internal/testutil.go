@@ -1,27 +1,66 @@
 package internal
 
 import (
+	"fmt"
 	embeddedpostgres "github.com/fergusstrange/embedded-postgres"
+	"github.com/phayes/freeport"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"math/rand"
+	"os"
 	"testing"
 )
 
+var letterRunes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+
+func RandStringRunes(n int) string {
+	b := make([]rune, n)
+	for i := range b {
+		b[i] = letterRunes[rand.Intn(len(letterRunes))]
+	}
+	return string(b)
+}
+
+func getConnectionString(host, user, password, dbName string, port int) string {
+	return fmt.Sprintf("host=%s port=%d user=%s "+
+		"password=%s dbname=%s sslmode=disable",
+		host,
+		port,
+		user,
+		password,
+		dbName)
+}
+
 func SetupEmbeddedDb(t *testing.T) (conn *gorm.DB, cleanup func()) {
+	dbName := "postgres"
+	port, err := freeport.GetFreePort()
+	if err != nil {
+		t.Fatal(err)
+	}
+	user, password := "postgres", "postgres"
 	database := embeddedpostgres.NewDatabase(embeddedpostgres.DefaultConfig().
+		Username(user).
+		Password(password).
+		Port(uint32(port)).
+		Version(embeddedpostgres.V15).
+		RuntimePath(fmt.Sprintf("./.tmp/%s/extracted", dbName)).
+		DataPath(fmt.Sprintf("./.tmp/%s/extracted/data", dbName)).
+		BinariesPath(fmt.Sprintf("./.tmp/%s/extracted", dbName)).
 		Logger(nil))
 	if err := database.Start(); err != nil {
 		t.Fatal(err)
 	}
-	dsn := "host=localhost port=5432 user=postgres password=postgres dbname=postgres sslmode=disable"
-	conn, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	connString := getConnectionString("localhost", "postgres", "postgres", dbName, port)
+	conn, err = gorm.Open(postgres.Open(connString), &gorm.Config{})
 	if err != nil {
 		t.Fatal(err)
 	}
-	//return db, err
 	cleanup = func() {
 		if err := database.Stop(); err != nil {
 			t.Fatal(err)
+		}
+		if err := os.RemoveAll(fmt.Sprintf("./.tmp/%s/", dbName)); err != nil {
+
 		}
 	}
 	return conn, cleanup

@@ -6,6 +6,7 @@ require (
 	github.com/fergusstrange/embedded-postgres v1.20.0
 	github.com/gagliardetto/binary v0.7.8
 	github.com/gagliardetto/solana-go v1.8.2
+	github.com/phayes/freeport v0.0.0-20220201140144-74d24b5ae9f5
 	github.com/stretchr/testify v1.8.1
 	gorm.io/driver/postgres v1.4.7
 	gorm.io/gorm v1.24.5
