@@ -14,3 +14,4 @@ Implement [Scanner]((https://pkg.go.dev/database/sql/?tab=doc#Scanner) ) and [Va
 - [ ] github.com/gagliardetto/binary U128
 - [ ] github.com/gagliardetto/solana-go UnixTimeSeconds
 - [ ] github.com/gagliardetto/solana-go DurationSeconds
+- - [ ] github.com/gagliardetto/solana-go AccountMeta
