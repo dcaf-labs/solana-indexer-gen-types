@@ -19,5 +19,9 @@ Implement [Scanner](<(https://pkg.go.dev/database/sql/?tab=doc#Scanner)>) and [V
 - [ ] github.com/gagliardetto/binary U128
 - [ ] github.com/gagliardetto/solana-go UnixTimeSeconds
 - [ ] github.com/gagliardetto/solana-go DurationSeconds
+<<<<<<< Updated upstream
 - [ ] github.com/gagliardetto/solana-go AccountMeta
 - [ ] Add tests for negative values in int128
+=======
+- [x] github.com/gagliardetto/solana-go AccountMeta
+>>>>>>> Stashed changes
