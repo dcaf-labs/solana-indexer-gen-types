@@ -17,7 +17,7 @@ type Table struct {
 	AccountMeta
 }
 
-func TestAccountMeta(t *testing.T) {
+func TestAccountMetaScanValue(t *testing.T) {
 	// open a database
 	db, cleanup := internal.SetupEmbeddedDb(t)
 	defer cleanup()

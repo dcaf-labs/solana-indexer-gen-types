@@ -13,7 +13,7 @@ type Table struct {
 	PublicKey
 }
 
-func TestPublicKey(t *testing.T) {
+func TestPublicKeyScanValue(t *testing.T) {
 	// open a database
 	db, cleanup := internal.SetupEmbeddedDb(t)
 	defer cleanup()
