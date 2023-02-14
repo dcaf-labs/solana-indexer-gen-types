@@ -1,4 +1,4 @@
-package int128
+package uint128
 
 import (
 	"github.com/dcaf-labs/solana-indexer-gen-types/pkg/internal"
@@ -14,7 +14,7 @@ import (
 
 type Table struct {
 	gorm.Model
-	Int128 `gorm:"type:numeric"`
+	Uint128 `gorm:"type:numeric"`
 }
 
 func TestInt128ScanValue(t *testing.T) {
@@ -24,42 +24,35 @@ func TestInt128ScanValue(t *testing.T) {
 	err := db.AutoMigrate(&Table{})
 	assert.NoError(t, err)
 	// Insert
-	val := Int128{Int128: bin.Int128(bin.Uint128{
-		Lo: 10,
-	})}
-	insert := Table{Int128: val}
-	assert.Equal(t, "10", insert.Int128.String())
+	val := Uint128{Uint128: bin.Uint128{Lo: 10}}
+	insert := Table{Uint128: val}
+	assert.Equal(t, "10", insert.Uint128.String())
 	assert.NoError(t, db.Create(&insert).Error)
 	// Read
 	find := Table{}
 	assert.NoError(t, db.First(&find, 1).Error) // find by gorm ID
-	assert.Equal(t, insert.Int128.String(), find.Int128.String())
-	assert.Equal(t, "10", find.Int128.String())
-
-	// Insert
-	val = Int128{}
-	assert.NoError(t, val.FromBigInt(big.NewInt(-10)))
-	insert = Table{Int128: val}
-	assert.Equal(t, "-10", insert.Int128.DecimalString())
-	assert.NoError(t, db.Create(&insert).Error)
-	// Read
-	find = Table{}
-	assert.NoError(t, db.First(&find, 2).Error) // find by gorm ID
-	assert.Equal(t, insert.Int128.DecimalString(), find.Int128.DecimalString())
-	assert.Equal(t, "-10", find.Int128.DecimalString())
+	assert.Equal(t, insert.Uint128.String(), find.Uint128.String())
+	assert.Equal(t, "10", find.Uint128.String())
 }
 
 func TestInt128_FromBigInt(t *testing.T) {
 	testCases := []*big.Int{
-		big.NewInt(-9999999999999999),
-		big.NewInt(-94),
-		big.NewInt(-90),
 		big.NewInt(10),
 		big.NewInt(100000000000000000),
 	}
 	for _, testCase := range testCases {
-		val := Int128{}
+		val := Uint128{}
 		assert.NoError(t, val.FromBigInt(testCase))
 		assert.Equal(t, 0, testCase.Cmp(val.BigInt()))
+	}
+
+	testCases = []*big.Int{
+		big.NewInt(-10),
+		big.NewInt(-94),
+		big.NewInt(-100000000000000000),
+	}
+	for _, testCase := range testCases {
+		val := Uint128{}
+		assert.Errorf(t, val.FromBigInt(testCase), "negative value cannot be assigned to uint128")
 	}
 }

@@ -16,7 +16,7 @@ go test ./...
 
 Implement [Scanner](<(https://pkg.go.dev/database/sql/?tab=doc#Scanner)>) and [Valuer](https://pkg.go.dev/database/sql/driver#Valuer) Interface
 
-- [ ] github.com/gagliardetto/binary U128
+- [x] github.com/gagliardetto/binary Uint128 
 - [ ] github.com/gagliardetto/solana-go UnixTimeSeconds
 - [ ] github.com/gagliardetto/solana-go DurationSeconds
 - [x] Add tests for negative values in int128
