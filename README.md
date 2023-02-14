@@ -14,6 +14,8 @@ go test ./...
 
 ## TODO
 
+- [ ] Implement solana-go converters
+
 Implement [Scanner](https://pkg.go.dev/database/sql/?tab=doc#Scanner) and [Valuer](https://pkg.go.dev/database/sql/driver#Valuer) Interface
 
 - [x] github.com/gagliardetto/binary Uint128
